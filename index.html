@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>A Little Birthday Surprise ♡</title>
+
+<style>
+:root {
+    --pink: #ffe6ef;
+    --rose: #e94d78;
+    --red: #d93662;
+    --cream: #fff8ed;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html, body {
+    margin: 0;
+    width: 100%;
+    min-height: 100%;
+    overflow: hidden;
+}
+
+body {
+    min-height: 100svh;
+    display: grid;
+    place-items: center;
+    background: linear-gradient(
+        145deg,
+        #fff0f5,
+        #ffdce8,
+        #ffe9dc
+    );
+    font-family: "Trebuchet MS", sans-serif;
+    user-select: none;
+}
+
+/* BACKGROUND PIXEL HEARTS */
+
+.bg-heart {
+    position: fixed;
+    color: #d93662;
+    font-size: var(--size, 20px);
+    opacity: .35;
+    pointer-events: none;
+    left: var(--x);
+    bottom: -50px;
+    animation: drift var(--time, 9s) linear infinite;
+}
+
+@keyframes drift {
+    0% {
+        transform: translateY(0);
+        opacity: 0;
+    }
+
+    15% {
+        opacity: .48;
+    }
+
+    100% {
+        transform: translateY(-115vh) rotate(20deg);
+        opacity: 0;
+    }
+}
+
+/* MAIN CARD */
+
+.scene {
+    position: relative;
+    z-index: 2;
+    width: min(92vw, 680px);
+    min-height: min(78svh, 590px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 32px 22px;
+
+    background: rgba(255,250,250,.65);
+    border: 3px solid white;
+    border-radius: 28px;
+
+    box-shadow:
+        0 12px 0 rgba(198,107,137,.13),
+        0 22px 55px rgba(142,65,91,.12);
+}
+
+.scene[hidden] {
+    display: none;
+}
+
+.tiny-label {
+    font-size: .78rem;
+    letter-spacing: .22em;
+    text-transform: uppercase;
+    color: #ad5875;
+    margin-bottom: 18px;
+}
+
+/* PIXEL ENVELOPE */
+
+.envelope {
+    width: 160px;
+    height: 120px;
+    position: relative;
+    margin: 12px auto 24px;
+    background: #f6a9c1;
+    border: 4px solid #8f405c;
+    box-shadow: 7px 7px 0 #d77b99;
+}
+
+.envelope:before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #ffd4df;
+    clip-path: polygon(
+        0 0, 50% 55%, 100% 0,
+        100% 12%, 50% 68%, 0 12%
+    );
+}
+
+.envelope:after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 68%;
+    background: #f4a0ba;
+    clip-path: polygon(
+        0 100%, 50% 22%, 100% 100%
+    );
+}
+
+/* CLICK HEART BUTTON */
+
+.heart-button {
+    position: relative;
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    width: 118px;
+    height: 108px;
+    color: white;
+    font-weight: 900;
+    font-size: 17px;
+    letter-spacing: 1px;
+    filter: drop-shadow(4px 5px 0 #a92f55);
+    transition: transform .18s;
+}
+
+.heart-button:hover {
+    transform: scale(1.08) rotate(-3deg);
+}
+
+.heart-button:active {
+    transform: scale(.94);
+}
+
+.heart-button svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.heart-button span {
+    position: relative;
+    z-index: 1;
+    text-shadow: 2px 2px #a92f55;
+}
+
+.hint {
+    font-size: .9rem;
+    color: #99546d;
+    margin-top: 18px;
+}
+
+/* BIRTHDAY MESSAGE */
+
+h1 {
+    max-width: 590px;
+    margin: 0 auto 14px;
+    color: #bd365f;
+    font-size: clamp(1.65rem, 5.5vw, 3.2rem);
+    line-height: 1.22;
+
+    text-shadow:
+        3px 3px 0 #ffe0e9,
+        5px 5px 0 rgba(205,91,128,.17);
+}
+
+.subtitle {
+    font-size: 1rem;
+    color: #8f5267;
+    line-height: 1.6;
+    max-width: 470px;
+}
+
+.cake {
+    font-size: 50px;
+    margin-bottom: 15px;
+}
+
+/* MORE LOVE BUTTON */
+
+.again {
+    border: 2px solid #c64a72;
+    background: #fff4f7;
+    color: #a9325a;
+    padding: 11px 20px;
+    border-radius: 12px;
+    font-weight: 800;
+    cursor: pointer;
+    box-shadow: 4px 4px 0 #e6a0b6;
+    margin-top: 18px;
+}
+
+/* ORANGE PIXEL CAT IN THE CORNER */
+
+.kitty-corner {
+    position: fixed;
+    z-index: 5;
+    right: 25px;
+    top: 20px;
+    width: 135px;
+    animation: kittyBob 3s ease-in-out infinite;
+    pointer-events: none;
+}
+
+@keyframes kittyBob {
+    50% {
+        transform: translateY(-7px);
+    }
+}
+
+.bubble {
+    position: absolute;
+    right: 75%;
+    top: 0;
+    white-space: nowrap;
+
+    background: #fffaf0;
+    border: 3px solid #713d2d;
+    border-radius: 12px;
+
+    padding: 7px 11px;
+    color: #9a4b2f;
+    font-weight: 900;
+    font-size: 15px;
+
+    box-shadow: 3px 3px 0 #e7a6a0;
+}
+
+.pixel-cat {
+    width: 100%;
+    height: auto;
+    image-rendering: pixelated;
+    shape-rendering: crispEdges;
+}
+
+/* FLYING PIXEL HEARTS AND CATS */
+
+.particle {
+    position: fixed;
+    z-index: 10;
+    pointer-events: none;
+
+    left: 0;
+    top: 0;
+
+    transform: translate(-50%,-50%);
+
+    animation: popFly var(--duration,1800ms)
+        steps(12,end) forwards;
+}
+
+.particle.heart {
+    font-size: var(--s,24px);
+    filter: drop-shadow(2px 2px 0 #b9365e);
+}
+
+.particle.cat {
+    width: var(--w,58px);
+    height: auto;
+    filter: drop-shadow(3px 3px 0 rgba(105,55,65,.16));
+}
+
+@keyframes popFly {
+    0% {
+        opacity: 0;
+        transform: translate(-50%,-50%)
+        translate(0,0) scale(.35);
+    }
+
+    12% {
+        opacity: 1;
+    }
+
+    100% {
+        opacity: 0;
+        transform: translate(-50%,-50%)
+        translate(var(--dx),var(--dy))
+        scale(1) rotate(var(--rot));
+    }
+}
+
+.footer-note {
+    position: fixed;
+    bottom: 10px;
+    color: #a96b80;
+    font-size: 11px;
+}
+
+@media(max-width:420px) {
+    .scene {
+        min-height: 65svh;
+        padding: 25px 15px;
+        margin-top: 45px;
+    }
+
+    .kitty-corner {
+        width: 100px;
+    }
+
+    .bubble {
+        right: 65%;
+    }
+}
+</style>
+</head>
+
+<body>
+
+<!-- PIXEL CAT DRAWINGS -->
+
+<svg width="0" height="0"
+style="position:absolute">
+
+<symbol id="orangeCat" viewBox="0 0 16 16">
+<g shape-rendering="crispEdges">
+
+<rect x="2" y="2" width="3" height="3" fill="#9b4b2e"/>
+<rect x="11" y="2" width="3" height="3" fill="#9b4b2e"/>
+
+<rect x="3" y="3" width="10" height="8" fill="#ef9b4c"/>
+<rect x="2" y="5" width="12" height="6" fill="#ef9b4c"/>
+
+<rect x="4" y="4" width="2" height="2" fill="#ffd08a"/>
+<rect x="10" y="4" width="2" height="2" fill="#ffd08a"/>
+
+<rect x="5" y="7" width="1" height="1" fill="#4a3028"/>
+<rect x="10" y="7" width="1" height="1" fill="#4a3028"/>
+
+<rect x="7" y="8" width="2" height="1" fill="#9b4b2e"/>
+<rect x="6" y="9" width="4" height="1" fill="#fff0d8"/>
+
+<rect x="4" y="10" width="8" height="4" fill="#ef9b4c"/>
+<rect x="3" y="12" width="10" height="2" fill="#d87938"/>
+
+<rect x="1" y="11" width="3" height="2" fill="#ef9b4c"/>
+<rect x="12" y="11" width="3" height="2" fill="#ef9b4c"/>
+
+<rect x="12" y="9" width="2" height="2" fill="#9b4b2e"/>
+<rect x="13" y="8" width="2" height="2" fill="#ef9b4c"/>
+
+<rect x="5" y="13" width="2" height="2" fill="#9b4b2e"/>
+<rect x="10" y="13" width="2" height="2" fill="#9b4b2e"/>
+
+</g>
+</symbol>
+
+<symbol id="whiteCat" viewBox="0 0 16 16">
+<g shape-rendering="crispEdges">
+
+<rect x="2" y="1" width="3" height="4" fill="#55515a"/>
+<rect x="11" y="1" width="3" height="4" fill="#55515a"/>
+
+<rect x="3" y="3" width="10" height="8" fill="#fffdf8"/>
+<rect x="2" y="5" width="12" height="6" fill="#fffdf8"/>
+
+<rect x="4" y="4" width="2" height="2" fill="#d6d2d4"/>
+<rect x="10" y="4" width="2" height="2" fill="#d6d2d4"/>
+
+<rect x="5" y="7" width="1" height="1" fill="#28252d"/>
+<rect x="10" y="7" width="1" height="1" fill="#28252d"/>
+
+<rect x="7" y="8" width="2" height="1" fill="#e88aa3"/>
+<rect x="6" y="9" width="4" height="1" fill="#e8cbd1"/>
+
+<rect x="4" y="10" width="8" height="4" fill="#fffdf8"/>
+<rect x="3" y="12" width="10" height="2" fill="#d6d2d4"/>
+
+<rect x="5" y="13" width="2" height="2" fill="#55515a"/>
+<rect x="10" y="13" width="2" height="2" fill="#55515a"/>
+
+</g>
+</symbol>
+
+<symbol id="blackCat" viewBox="0 0 16 16">
+<g shape-rendering="crispEdges">
+
+<rect x="2" y="1" width="3" height="4" fill="#24212b"/>
+<rect x="11" y="1" width="3" height="4" fill="#24212b"/>
+
+<rect x="3" y="3" width="10" height="8" fill="#302b36"/>
+<rect x="2" y="5" width="12" height="6" fill="#302b36"/>
+
+<rect x="4" y="4" width="2" height="2" fill="#8d7781"/>
+<rect x="10" y="4" width="2" height="2" fill="#8d7781"/>
+
+<rect x="5" y="7" width="1" height="1" fill="#f4d77e"/>
+<rect x="10" y="7" width="1" height="1" fill="#f4d77e"/>
+
+<rect x="7" y="8" width="2" height="1" fill="#e68ca7"/>
+<rect x="6" y="9" width="4" height="1" fill="#76636d"/>
+
+<rect x="4" y="10" width="8" height="4" fill="#302b36"/>
+<rect x="3" y="12" width="10" height="2" fill="#24212b"/>
+
+<rect x="5" y="13" width="2" height="2" fill="#24212b"/>
+<rect x="10" y="13" width="2" height="2" fill="#24212b"/>
+
+</g>
+</symbol>
+</svg>
+
+
+<!-- CORNER CAT -->
+
+<div class="kitty-corner">
+
+    <div class="bubble">
+        love you ♡
+    </div>
+
+    <svg class="pixel-cat" viewBox="0 0 16 16">
+        <use href="#orangeCat"/>
+    </svg>
+
+</div>
+
+
+<!-- FIRST SCREEN -->
+
+<section class="scene" id="intro">
+
+    <p class="tiny-label">
+        A TINY SURPRISE FOR YOU
+    </p>
+
+    <div class="envelope"></div>
+
+    <button class="heart-button" id="openBtn">
+
+        <svg viewBox="0 0 100 90">
+
+            <path fill="#e84d78"
+            d="M50 86 L8 45 L8 28
+            L17 13 L34 8 L50 25
+            L66 8 L83 13 L92 28 L92 45 Z"/>
+
+            <path fill="#f47f9d"
+            d="M17 17 L34 12 L50 29
+            L50 42 L27 27 Z"/>
+
+            <path fill="#b9325b"
+            d="M50 70 L83 39 L83 48
+            L50 82 L17 49 L17 40 Z"/>
+
+        </svg>
+
+        <span>CLICK</span>
+
+    </button>
+
+    <p class="hint">
+        Tap the heart to open your letter ♡
+    </p>
+
+</section>
+
+
+<!-- BIRTHDAY SCREEN -->
+
+<section class="scene" id="birthday" hidden>
+
+    <div class="cake">🎂</div>
+
+    <p class="tiny-label">
+        TODAY IS ALL ABOUT YOU
+    </p>
+
+    <h1>
+        Happy birthday to the most handsome cutest man ever ♡
+    </h1>
+
+    <p class="subtitle">
+        I hope your day is as lovely, warm,
+        and special as you are.
+    </p>
+
+    <button class="again" id="moreBtn">
+        CLICK FOR MORE LOVE ♡
+    </button>
+
+</section>
+
+
+<div class="footer-note">
+    MADE WITH A LITTLE EXTRA LOVE ♡
+</div>
+
+
+<script>
+
+/* BACKGROUND HEARTS */
+
+const heartSymbols = ["♥","❤","♡"];
+
+for(let i = 0; i < 17; i++){
+
+    const h = document.createElement("span");
+
+    h.className = "bg-heart";
+
+    h.textContent =
+        heartSymbols[i % heartSymbols.length];
+
+    h.style.setProperty(
+        "--x",
+        Math.random() * 100 + "vw"
+    );
+
+    h.style.setProperty(
+        "--size",
+        (13 + Math.random() * 17) + "px"
+    );
+
+    h.style.setProperty(
+        "--time",
+        (8 + Math.random() * 9) + "s"
+    );
+
+    h.style.animationDelay =
+        (-Math.random() * 15) + "s";
+
+    document.body.appendChild(h);
+
+}
+
+
+/* PIXEL HEARTS AND CATS BURST */
+
+function makeBurst(x, y, count = 18){
+
+    const cats = [
+        "orangeCat",
+        "whiteCat",
+        "blackCat"
+    ];
+
+    for(let i = 0; i < count; i++){
+
+        const isCat = Math.random() < 0.28;
+
+        const el = document.createElement(
+            isCat ? "div" : "span"
+        );
+
+        el.className =
+            "particle " + (isCat ? "cat" : "heart");
+
+        if(isCat){
+
+            const svg = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "svg"
+            );
+
+            svg.setAttribute("viewBox","0 0 16 16");
+
+            svg.classList.add("pixel-cat");
+
+            const use = document.createElementNS(
+                "http://www.w3.org/2000/svg",
+                "use"
+            );
+
+            use.setAttribute(
+                "href",
+                "#" + cats[
+                    Math.floor(Math.random() * cats.length)
+                ]
+            );
+
+            svg.appendChild(use);
+
+            el.appendChild(svg);
+
+            el.style.setProperty(
+                "--w",
+                (38 + Math.random() * 30) + "px"
+            );
+
+        } else {
+
+            el.textContent =
+                heartSymbols[
+                    Math.floor(Math.random() * heartSymbols.length)
+                ];
+
+            el.style.setProperty(
+                "--s",
+                (17 + Math.random() * 22) + "px"
+            );
+
+            el.style.color =
+                Math.random() < .5
+                ? "#d93662"
+                : "#f0789a";
+
+        }
+
+        const angle = Math.random() * Math.PI * 2;
+
+        const distance = 75 + Math.random() * 190;
+
+        el.style.left = x + "px";
+        el.style.top = y + "px";
+
+        el.style.setProperty(
+            "--dx",
+            Math.cos(angle) * distance + "px"
+        );
+
+        el.style.setProperty(
+            "--dy",
+            (Math.sin(angle) * distance - 35) + "px"
+        );
+
+        el.style.setProperty(
+            "--rot",
+            (Math.random() * 100 - 50) + "deg"
+        );
+
+        el.style.setProperty(
+            "--duration",
+            (1300 + Math.random() * 1100) + "ms"
+        );
+
+        document.body.appendChild(el);
+
+        el.addEventListener(
+            "animationend",
+            () => el.remove(),
+            {once:true}
+        );
+
+    }
+
+}
+
+
+/* OPEN THE BIRTHDAY LETTER */
+
+const intro = document.getElementById("intro");
+
+const birthday = document.getElementById("birthday");
+
+let birthdayOpened = false;
+
+document.getElementById("openBtn").addEventListener(
+    "click",
+    () => {
+
+        intro.hidden = true;
+
+        birthday.hidden = false;
+
+        birthdayOpened = true;
+
+        makeBurst(
+            window.innerWidth / 2,
+            window.innerHeight / 2,
+            34
+        );
+
+    }
+);
+
+
+/* MORE LOVE BUTTON */
+
+document.getElementById("moreBtn").addEventListener(
+    "click",
+    (event) => {
+
+        makeBurst(
+            event.clientX,
+            event.clientY,
+            28
+        );
+
+    }
+);
+
+
+/* CLICK ANYWHERE TO RELEASE PIXEL FRIENDS */
+
+document.addEventListener(
+    "pointerdown",
+    (event) => {
+
+        if(!birthdayOpened) return;
+
+        if(event.target.closest("button")) return;
+
+        makeBurst(
+            event.clientX,
+            event.clientY,
+            14
+        );
+
+    }
+);
+
+</script>
+
+</body>
+</html>
